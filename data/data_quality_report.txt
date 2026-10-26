@@ -1,0 +1,21 @@
+Dataset shape: (36, 19)
+
+Missing values:
+Goal 1      0
+Goal 2      0
+Goal 3      0
+Goal 4      0
+Goal 5      0
+Goal 6      0
+Goal 7      0
+Goal 8      0
+Goal 9      0
+Goal 10     0
+Goal 11     0
+Goal 12     0
+Goal 13     0
+Goal 14    27
+Goal 15     0
+Goal 16     0
+
+Duplicate regions: 0
