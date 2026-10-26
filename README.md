@@ -44,6 +44,28 @@ The project also uses dimensionality reduction and correlation analysis to explo
 
 These results suggest that the regions have some similarities in their SDG profiles, although the separation between clusters is limited. The findings should be interpreted as exploratory patterns rather than definitive rankings of regional development.
 
+
+## Visualizations
+
+### 1. PCA Cluster Visualization
+
+PCA reduces the dimensionality of the SDG goal scores so that patterns and similarities among regions can be explored in two dimensions. The first two principal components explain approximately 42.47% of the variance.
+
+![PCA Visualization](results/pca_visualization.png)
+
+### 2. Clustering Model Evaluation
+
+This comparison shows the Silhouette Scores obtained for different clustering configurations. A higher score generally indicates better-defined clusters.
+
+![Silhouette Score Comparison](results/silhouette_score_comparison.png)
+
+### 3. SDG Goal Correlation Heatmap
+
+The correlation heatmap helps explore relationships between different SDG goal scores across the regions in the dataset.
+
+![SDG Correlation Heatmap](results/sdg_correlation_heatmap.png)
+
+
 ## Project Structure
 
 ```text
