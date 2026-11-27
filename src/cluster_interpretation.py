@@ -1,6 +1,8 @@
 
 import os
 import pandas as pd  # type: ignore[reportMissingModuleSource]
+from sklearn.ensemble import IsolationForest
+from sklearn.preprocessing import StandardScaler
 
 DATA_PATH = "data/clustering_input.csv"
 RESULTS_DIR = "results"
@@ -104,3 +106,41 @@ analyze_clusters(
 )
 
 print("\nCluster interpretation completed.")
+
+# Outlier analysis using Isolation Forest
+
+goal_columns = [
+    col for col in data.columns
+    if col.startswith("Goal ")
+]
+
+X = data[goal_columns]
+
+scaler = StandardScaler()
+X_scaled = scaler.fit_transform(X)
+
+outlier_model = IsolationForest(
+    contamination=0.10,
+    random_state=42
+)
+
+data["Outlier_Status"] = outlier_model.fit_predict(X_scaled)
+
+data["Outlier_Status"] = data["Outlier_Status"].map({
+    1: "Normal",
+    -1: "Potential Outlier"
+})
+
+outliers = data[
+    data["Outlier_Status"] == "Potential Outlier"
+]
+
+outliers.to_csv(
+    os.path.join(RESULTS_DIR, "outlier_analysis.csv"),
+    index=False
+)
+
+print("\nPotential Outlier Regions:")
+print(outliers[["Region"]].to_string(index=False))
+
+print("\nOutlier analysis saved.")

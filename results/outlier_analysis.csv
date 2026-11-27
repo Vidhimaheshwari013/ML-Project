@@ -1,0 +1,5 @@
+Region,Region_Type,Goal 1,Goal 2,Goal 3,Goal 4,Goal 5,Goal 6,Goal 7,Goal 8,Goal 9,Goal 10,Goal 11,Goal 12,Goal 13,Goal 15,Goal 16,Outlier_Status
+Nagaland,State,63,60,63,46,74,86,50,76,50,55,38,59,79,74,65,Potential Outlier
+Bihar,State,39,24,67,32,44,98,81,54,53,56,57,74,34,73,68,Potential Outlier
+Delhi,Union Territory,67,80,93,85,60,86,100,58,75,56,75,43,49,68,51,Potential Outlier
+Dadra and Nagar Haveli and Daman and Diu,Union Territory,89,22,70,67,41,73,52,73,55,71,89,76,38,99,80,Potential Outlier

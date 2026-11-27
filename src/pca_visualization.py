@@ -29,12 +29,24 @@ pca = PCA(n_components=2)
 components = pca.fit_transform(X_scaled)
 
 # 6. Save PCA coordinates for every region
+# Load K-Means cluster assignments
+assignments = pd.read_csv(
+    RESULTS_DIR / "kmeans_cluster_assignments.csv"
+)
+
+# Combine PCA coordinates with cluster labels
 pca_df = pd.DataFrame({
     "Region": df["Region"],
     "Region_Type": df["Region_Type"],
     "PC1": components[:, 0],
     "PC2": components[:, 1]
 })
+
+pca_df = pca_df.merge(
+    assignments[["Region", "KMeans_Cluster"]],
+    on="Region",
+    how="left"
+)
 
 pca_df.to_csv(RESULTS_DIR / "pca_coordinates.csv", index=False)
 
@@ -49,9 +61,21 @@ variance_df.to_csv(
     index=False
 )
 
-# 8. Create the PCA scatter plot
+# 8. Create PCA scatter plot with K-Means cluster colours
+
 plt.figure(figsize=(12, 8))
-plt.scatter(pca_df["PC1"], pca_df["PC2"], alpha=0.8)
+
+for cluster in sorted(pca_df["KMeans_Cluster"].unique()):
+    cluster_data = pca_df[
+        pca_df["KMeans_Cluster"] == cluster
+    ]
+
+    plt.scatter(
+        cluster_data["PC1"],
+        cluster_data["PC2"],
+        label=f"Cluster {cluster}",
+        alpha=0.8
+    )
 
 for _, row in pca_df.iterrows():
     plt.annotate(
@@ -65,10 +89,17 @@ for _, row in pca_df.iterrows():
 plt.xlabel(
     f"PC1 ({pca.explained_variance_ratio_[0] * 100:.2f}% variance)"
 )
+
 plt.ylabel(
     f"PC2 ({pca.explained_variance_ratio_[1] * 100:.2f}% variance)"
 )
-plt.title("PCA of SDG Scores Across Indian States and UTs")
+
+plt.title(
+    "PCA Visualization of Indian States and UTs "
+    "Coloured by K-Means Clusters"
+)
+
+plt.legend(title="K-Means Clusters")
 plt.grid(True, alpha=0.3)
 plt.tight_layout()
 
@@ -77,6 +108,7 @@ plt.savefig(
     dpi=300,
     bbox_inches="tight"
 )
+
 plt.close()
 
 # 9. Create an explained-variance chart
@@ -89,11 +121,7 @@ plt.ylabel("Explained Variance (%)")
 plt.title("Variance Explained by the First Two Principal Components")
 plt.tight_layout()
 
-plt.savefig(
-    RESULTS_DIR / "pca_explained_variance.png",
-    dpi=300,
-    bbox_inches="tight"
-)
+plt.savefig(RESULTS_DIR / "pca_visualization_updated.png", dpi=300, bbox_inches="tight")
 plt.close()
 
 # 10. Display results
